@@ -19,14 +19,20 @@
 
         .scanner-container {
             text-align: center;
+            width: 100%;
             margin-bottom: 60px; /* Space for footer */
+            padding: 0 20px;
+            box-sizing: border-box;
         }
 
         h1 {
             color: #333;
+            font-size: 1.5rem;
         }
 
         video {
+            width: 100%;
+            max-width: 400px;
             border: 2px solid #333;
             border-radius: 8px;
         }
@@ -38,15 +44,16 @@
             padding: 20px;
             background-color: #fff;
             margin-top: 20px;
-            width: 300px;
+            width: 100%;
+            max-width: 350px;
             text-align: center;
             box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
         }
 
         #photo {
             display: block;
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             object-fit: cover;
             border-radius: 50%;
             margin-bottom: 15px;
@@ -58,7 +65,7 @@
         }
 
         #scanningStatus {
-            font-size: 18px;
+            font-size: 1rem;
             color: #333;
             margin: 10px 0;
         }
@@ -91,6 +98,47 @@
         footer p {
             margin: 0;
             font-size: 14px;
+        }
+
+        /* Media Query for Mobile Screens */
+        @media (max-width: 600px) {
+            body {
+                justify-content: flex-start;
+                padding-top: 20px;
+                height: auto;
+            }
+
+            h1 {
+                font-size: 1.2rem;
+            }
+
+            video {
+                width: 100%;
+                height: auto;
+                max-width: 100%;
+            }
+
+            #detailsBox {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            #photo {
+                width: 70px;
+                height: 70px;
+            }
+
+            #scanningStatus {
+                font-size: 0.9rem;
+            }
+
+            #closeButton {
+                padding: 8px 16px;
+            }
+
+            footer p {
+                font-size: 13px;
+            }
         }
     </style>
 </head>
