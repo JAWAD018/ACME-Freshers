@@ -52,10 +52,10 @@ app.post('/check-qr', async (req, res) => {
         if (user) {
             res.json({
                 success: true,
-                photo: user.photo,
+                qrCode: user.qrCode
                 name: user.name,
                 email: user.email,
-                qrCode: user.qrCode
+                photo: user.photoUrl,
             });
         } else {
             res.json({ success: false, message: 'QR code not found.' });
