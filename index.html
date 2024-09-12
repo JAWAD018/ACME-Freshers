@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .scanner-container {
+            text-align: center;
+            margin-bottom: 60px; /* Space for footer */
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        video {
+            border: 2px solid #333;
+            border-radius: 8px;
+        }
+
+        #detailsBox {
+            display: none;
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            background-color: #fff;
+            margin-top: 20px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #photo {
+            display: none;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+
+        #result {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        #closeButton {
+            display: none;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        #closeButton:hover {
+            background-color: #555;
+        }
+
+        footer {
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: absolute;
+            bottom: 0;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="scanner-container">
+        <h1>QR Code Scanner</h1>
+        <video id="video" width="300" height="200"></video>
+        <canvas id="canvas" width="300" height="200" style="display: none;"></canvas>
+
+        <div id="detailsBox">
+            <img id="photo" src="" alt="User Photo">
+            <p id="result"></p>
+        </div>
+
+        <button id="closeButton">Close</button>
+    </div>
+
+    <footer>
+        <p>Created By JAWAD</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        const result = document.getElementById('result');
+        const photo = document.getElementById('photo');
+        const detailsBox = document.getElementById('detailsBox');
+        const closeButton = document.getElementById('closeButton');
+        
+        let scanning = true;
+
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+            .then(stream => {
+                video.srcObject = stream;
+                video.setAttribute('playsinline', true);
+                video.play();
+                requestAnimationFrame(tick);
+            })
+            .catch(err => {
+                console.error("Error accessing the camera: ", err);
+            });
+
+            async function checkQRCode(qrCode) {
+    try {
+        const response = await fetch('http://localhost:3000/check-qr', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ qrCode })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            // Ensure 'data' has the expected properties before accessing them
+            const { photo, name, email, qrCode } = data;
+
+            // Update the DOM with the received data
+            document.getElementById('photo').src = photo;
+            document.getElementById('name').textContent = `Name: ${name}`;
+            document.getElementById('email').textContent = `Email: ${email}`;
+            document.getElementById('qrCode').textContent = `QR Code: ${qrCode}`;
+        } else {
+            console.error('QR code not found:', data.message);
+        }
+    } catch (error) {
+        console.error('Error checking QR code:', error);
+    }
+}
+
+
+        function tick() {
+            if (scanning && video.readyState === video.HAVE_ENOUGH_DATA) {
+                canvas.height = video.videoHeight;
+                canvas.width = video.videoWidth;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                const code = jsQR(imageData.data, imageData.width, imageData.height, {
+                    inversionAttempts: 'dontInvert',
+                });
+                if (code) {
+                    checkQRCode(code.data);
+                }
+            }
+            if (scanning) {
+                requestAnimationFrame(tick);
+            }
+        }
+
+        closeButton.addEventListener('click', () => {
+            scanning = false;
+            result.textContent = '';
+            photo.style.display = 'none';
+            detailsBox.style.display = 'none';
+            closeButton.style.display = 'none';
+            video.pause();
+            video.srcObject.getTracks().forEach(track => track.stop());
+        });
+    </script>
+</body>
+</html>
