@@ -11,7 +11,11 @@ const port = 3000;
 app.use(bodyParser.json());
 
 // Enable CORS for all origins
-app.use(cors());
+app.use(cors({
+    origin: '*', // Allow all origins or specify allowed origins
+    methods: ['GET', 'POST']
+}));
+
 
 // MongoDB connection setup
 const url = 'mongodb+srv://mohmmedjawad36:Jawad52923@cluster0.v1odd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
