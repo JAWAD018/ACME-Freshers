@@ -10,6 +10,12 @@
         "name": "Jane Smith",
         "email": "jane.smith@example.com",
         "photoUrl": "https://images.pexels.com/photos/1234567/pexels-photo-1234567.jpeg"
+    },
+    {
+        "qrCode": "105522861026",
+        "name": "Mohammed Muzammyl",
+        "email": "muzammylmujju@gmail.com",
+        "photoUrl": "https://drive.google.com/file/d/1ukIBUkKZCNEBLnWcBstCb38AnLIH6D59/view?usp=drive_link"
     }
 
 ]
