@@ -1,59 +1,45 @@
-const express = require('express');
-const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
-const bodyParser = require('body-parser');
+import fs from 'fs';
+import path from 'path';
 
-// Initialize Express app
-const app = express();
-const port = 3000;
-
-// Middleware to parse JSON
-app.use(bodyParser.json());
-
-// Enable CORS for all origins
-app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST']
-}));
-
-// Load JSON data
-const dataFilePath = path.join(__dirname, 'data.json');
+// Load JSON data (Vercel serverless functions run in a stateless environment)
+const dataFilePath = path.join(process.cwd(), 'data.json');
 let data = [];
 
-fs.readFile(dataFilePath, 'utf8', (err, jsonData) => {
-    if (err) {
-        console.error('Error reading JSON file:', err);
-        return;
-    }
+const loadData = () => {
     try {
+        const jsonData = fs.readFileSync(dataFilePath, 'utf8');
         data = JSON.parse(jsonData);
         console.log('Data loaded from JSON file');
     } catch (err) {
-        console.error('Error parsing JSON data:', err);
+        console.error('Error reading or parsing JSON file:', err);
     }
-});
+};
 
-// Define route
-app.post('/api/check-qr', (req, res) => {
-    const { qrCode } = req.body;
+loadData();
 
-    const item = data.find(d => d.qrCode === qrCode);
+export default async function handler(req, res) {
+    if (req.method === 'POST') {
+        const { qrCode } = req.body;
 
-    if (item) {
-        res.json({
-            success: true,
-            qrCode: item.qrCode,
-            name: item.name,
-            email: item.email,
-            photo: item.photoUrl
-        });
+        // Ensure the data is loaded
+        if (data.length === 0) {
+            loadData();
+        }
+
+        const item = data.find(d => d.qrCode === qrCode);
+
+        if (item) {
+            res.status(200).json({
+                success: true,
+                qrCode: item.qrCode,
+                name: item.name,
+                email: item.email,
+                photo: item.photoUrl
+            });
+        } else {
+            res.status(404).json({ success: false, message: 'QR code not found.' });
+        }
     } else {
-        res.json({ success: false, message: 'QR code not found.' });
+        res.status(405).json({ success: false, message: 'Method not allowed' });
     }
-});
-
-// Start the server
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
-});
+}
