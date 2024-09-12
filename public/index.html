@@ -155,6 +155,11 @@ let scanning = true;
 let stream = null;
 
 function startScanning() {
+    if (stream) {
+        // Stop the existing stream if present
+        stream.getTracks().forEach(track => track.stop());
+    }
+    
     navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
         .then(userMediaStream => {
             stream = userMediaStream;
@@ -228,9 +233,9 @@ closeButton.addEventListener('click', () => {
     detailsBox.style.display = 'none';
     closeButton.style.display = 'none';
     photo.style.display = 'none';
-    result.textContent = '';
-    video.pause();
-    video.srcObject.getTracks().forEach(track => track.stop());
+    nameElem.textContent = '';
+    emailElem.textContent = '';
+    qrCodeElem.textContent = '';
     startScanning(); // Restart scanning
 });
 
