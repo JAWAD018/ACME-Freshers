@@ -1,0 +1,15 @@
+[
+    {
+        "qrCode": "123456789",
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "photoUrl": "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg"
+    },
+    {
+        "qrCode": "987654321",
+        "name": "Jane Smith",
+        "email": "jane.smith@example.com",
+        "photoUrl": "https://images.pexels.com/photos/1234567/pexels-photo-1234567.jpeg"
+    }
+
+]
