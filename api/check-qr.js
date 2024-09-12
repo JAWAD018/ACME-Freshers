@@ -1,31 +1,21 @@
-import fs from 'fs';
-import path from 'path';
+const fs = require('fs');
+const path = require('path');
 
-// Load JSON data (Vercel serverless functions run in a stateless environment)
-const dataFilePath = path.join(process.cwd(), 'data.json');
-let data = [];
-
-const loadData = () => {
-    try {
-        const jsonData = fs.readFileSync(dataFilePath, 'utf8');
-        data = JSON.parse(jsonData);
-        console.log('Data loaded from JSON file');
-    } catch (err) {
-        console.error('Error reading or parsing JSON file:', err);
-    }
-};
-
-loadData();
-
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
     if (req.method === 'POST') {
-        const { qrCode } = req.body;
-
-        // Ensure the data is loaded
-        if (data.length === 0) {
-            loadData();
+        // Load JSON data
+        const dataFilePath = path.join(process.cwd(), 'data.json');
+        let data = [];
+        
+        try {
+            const jsonData = fs.readFileSync(dataFilePath, 'utf8');
+            data = JSON.parse(jsonData);
+        } catch (err) {
+            console.error('Error reading or parsing JSON file:', err);
+            return res.status(500).json({ success: false, message: 'Server error' });
         }
 
+        const { qrCode } = req.body;
         const item = data.find(d => d.qrCode === qrCode);
 
         if (item) {
@@ -42,4 +32,4 @@ export default async function handler(req, res) {
     } else {
         res.status(405).json({ success: false, message: 'Method not allowed' });
     }
-}
+};

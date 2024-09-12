@@ -146,41 +146,35 @@
         }
 
         async function checkQRCode(qrCode) {
-            scanningStatus.textContent = 'Processing QR Code...';
-            try {
+    try {
+        const response = await fetch('https://acmefresherqr.vercel.app/api/check-qr', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ qrCode })
+        });
 
-                const response = await fetch('https://acmefresherqr.vercel.app/api/check-qr', {
-
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ qrCode })
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                scanningStatus.textContent = '';
-
-                if (data.success) {
-                    // Update the DOM with the received data
-                    photo.src = data.photo;
-                    nameElem.textContent = `Name: ${data.name}`;
-                    emailElem.textContent = `Email: ${data.email}`;
-                    qrCodeElem.textContent = `QR Code: ${data.qrCode}`;
-                    detailsBox.style.display = 'block';
-                    closeButton.style.display = 'block';
-                } else {
-                    result.textContent = 'QR code not found.';
-                }
-            } catch (error) {
-                scanningStatus.textContent = 'Error scanning QR Code.';
-                console.error('Error checking QR code:', error);
-            }
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
+
+        const data = await response.json();
+
+        if (data.success) {
+            const { photo, name, email, qrCode } = data;
+            document.getElementById('photo').src = photo;
+            document.getElementById('name').textContent = `Name: ${name}`;
+            document.getElementById('email').textContent = `Email: ${email}`;
+            document.getElementById('qrCode').textContent = `QR Code: ${qrCode}`;
+        } else {
+            console.error('QR code not found:', data.message);
+        }
+    } catch (error) {
+        console.error('Error checking QR code:', error);
+    }
+}
+
 
         function tick() {
             if (scanning && video.readyState === video.HAVE_ENOUGH_DATA) {
