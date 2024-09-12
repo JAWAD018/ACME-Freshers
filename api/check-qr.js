@@ -2,23 +2,20 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
-const bodyParser = require('body-parser');
 
-// Initialize Express app
 const app = express();
-const port = 3000;
 
 // Middleware to parse JSON
-app.use(bodyParser.json());
+app.use(express.json());
 
-// Enable CORS for all origins
+// Enable CORS
 app.use(cors({
     origin: '*',
     methods: ['GET', 'POST']
 }));
 
 // Load JSON data
-const dataFilePath = path.join(__dirname, 'data.json');
+const dataFilePath = path.join(__dirname, '../data.json');
 let data = [];
 
 fs.readFile(dataFilePath, 'utf8', (err, jsonData) => {
@@ -35,7 +32,7 @@ fs.readFile(dataFilePath, 'utf8', (err, jsonData) => {
 });
 
 // Define route
-app.post('/api/check-qr', (req, res) => {
+app.post('/check-qr', (req, res) => {
     const { qrCode } = req.body;
 
     const item = data.find(d => d.qrCode === qrCode);
@@ -53,7 +50,5 @@ app.post('/api/check-qr', (req, res) => {
     }
 });
 
-// Start the server
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
-});
+// Export the app to be used as a Vercel serverless function
+module.exports = app;

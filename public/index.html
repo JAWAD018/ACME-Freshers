@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -148,7 +149,8 @@
         async function checkQRCode(qrCode) {
             scanningStatus.textContent = 'Processing QR Code...';
             try {
-                const response = await fetch('https://acmefresherqr.vercel.app/api/server', {
+                // Update the API endpoint to the correct one
+                const response = await fetch('https://acmefresherqr.vercel.app/api/check-qr', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -172,7 +174,7 @@
                     detailsBox.style.display = 'block';
                     closeButton.style.display = 'block';
                 } else {
-                    result.textContent = 'QR code not found.';
+                    scanningStatus.textContent = 'QR code not found.';
                 }
             } catch (error) {
                 scanningStatus.textContent = 'Error scanning QR Code.';
@@ -204,7 +206,6 @@
             detailsBox.style.display = 'none';
             closeButton.style.display = 'none';
             photo.style.display = 'none';
-            result.textContent = '';
             video.pause();
             video.srcObject.getTracks().forEach(track => track.stop());
             startScanning();
