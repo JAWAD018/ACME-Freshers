@@ -35,7 +35,7 @@ fs.readFile(dataFilePath, 'utf8', (err, jsonData) => {
 });
 
 // Define route
-app.post('/check-qr', (req, res) => {
+app.post('/api/check-qr', (req, res) => {
     const { qrCode } = req.body;
 
     const item = data.find(d => d.qrCode === qrCode);
@@ -49,7 +49,7 @@ app.post('/check-qr', (req, res) => {
             photo: item.photoUrl
         });
     } else {
-        res.json({ success: false, message: 'QR code not found.' });
+        res.status(404).json({ success: false, message: 'QR code not found.' });
     }
 });
 
