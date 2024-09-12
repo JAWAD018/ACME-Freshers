@@ -32,6 +32,11 @@ connectToDb();
 
 const db = client.db(dbName);
 const usersCollection = db.collection('users');
+app.use((req, res, next) => {
+    res.setHeader('Content-Type', 'application/json');
+    next();
+});
+
 
 // Define route
 app.post('/check-qr', async (req, res) => {
