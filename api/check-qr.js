@@ -32,7 +32,7 @@ fs.readFile(dataFilePath, 'utf8', (err, jsonData) => {
 });
 
 // Define route
-app.post('/check-qr', (req, res) => {
+app.post('/api/check-qr', (req, res) => {
     const { qrCode } = req.body;
 
     const item = data.find(d => d.qrCode === qrCode);
