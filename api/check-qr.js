@@ -1,35 +1,59 @@
+const express = require('express');
+const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
+const bodyParser = require('body-parser');
 
-module.exports = async (req, res) => {
-    if (req.method === 'POST') {
-        // Load JSON data
-        const dataFilePath = path.join(process.cwd(), 'data.json');
-        let data = [];
-        
-        try {
-            const jsonData = fs.readFileSync(dataFilePath, 'utf8');
-            data = JSON.parse(jsonData);
-        } catch (err) {
-            console.error('Error reading or parsing JSON file:', err);
-            return res.status(500).json({ success: false, message: 'Server error' });
-        }
+// Initialize Express app
+const app = express();
+const port = 3000;
 
-        const { qrCode } = req.body;
-        const item = data.find(d => d.qrCode === qrCode);
+// Middleware to parse JSON
+app.use(bodyParser.json());
 
-        if (item) {
-            res.status(200).json({
-                success: true,
-                qrCode: item.qrCode,
-                name: item.name,
-                email: item.email,
-                photo: item.photoUrl
-            });
-        } else {
-            res.status(404).json({ success: false, message: 'QR code not found.' });
-        }
-    } else {
-        res.status(405).json({ success: false, message: 'Method not allowed' });
+// Enable CORS for all origins
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST']
+}));
+
+// Load JSON data
+const dataFilePath = path.join(__dirname, 'data.json');
+let data = [];
+
+fs.readFile(dataFilePath, 'utf8', (err, jsonData) => {
+    if (err) {
+        console.error('Error reading JSON file:', err);
+        return;
     }
-};
+    try {
+        data = JSON.parse(jsonData);
+        console.log('Data loaded from JSON file');
+    } catch (err) {
+        console.error('Error parsing JSON data:', err);
+    }
+});
+
+// Define route
+app.post('/check-qr', (req, res) => {
+    const { qrCode } = req.body;
+
+    const item = data.find(d => d.qrCode === qrCode);
+
+    if (item) {
+        res.json({
+            success: true,
+            qrCode: item.qrCode,
+            name: item.name,
+            email: item.email,
+            photo: item.photoUrl
+        });
+    } else {
+        res.json({ success: false, message: 'QR code not found.' });
+    }
+});
+
+// Start the server
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+});
