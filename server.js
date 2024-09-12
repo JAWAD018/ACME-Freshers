@@ -1,6 +1,7 @@
 const express = require('express');
-const cors = require('cors'); // Import the cors package
-const { MongoClient } = require('mongodb');
+const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
 const bodyParser = require('body-parser');
 
 // Initialize Express app
@@ -11,48 +12,44 @@ const port = 3000;
 app.use(bodyParser.json());
 
 // Enable CORS for all origins
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST']
+}));
 
-// MongoDB connection setup
-const url = 'mongodb+srv://mohmmedjawad36:Jawad52923@cluster0.v1odd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
-const dbName = 'qrDatabase';
+// Load JSON data
+const dataFilePath = path.join(__dirname, 'data.json');
+let data = [];
 
-const client = new MongoClient(url);
-
-async function connectToDb() {
-    try {
-        await client.connect();
-        console.log('Connected to MongoDB Atlas');
-    } catch (err) {
-        console.error('Error connecting to MongoDB Atlas:', err);
+fs.readFile(dataFilePath, 'utf8', (err, jsonData) => {
+    if (err) {
+        console.error('Error reading JSON file:', err);
+        return;
     }
-}
-
-connectToDb();
-
-const db = client.db(dbName);
-const usersCollection = db.collection('users');
+    try {
+        data = JSON.parse(jsonData);
+        console.log('Data loaded from JSON file');
+    } catch (err) {
+        console.error('Error parsing JSON data:', err);
+    }
+});
 
 // Define route
-app.post('/check-qr', async (req, res) => {
+app.post('/api/check-qr', (req, res) => {
     const { qrCode } = req.body;
 
-    try {
-        const user = await usersCollection.findOne({ qrCode });
+    const item = data.find(d => d.qrCode === qrCode);
 
-        if (user) {
-            res.json({
-                success: true,
-                photo: user.photo,
-                name: user.name,
-                email: user.email,
-                qrCode: user.qrCode
-            });
-        } else {
-            res.json({ success: false, message: 'QR code not found.' });
-        }
-    } catch (err) {
-        res.status(500).json({ success: false, message: 'Server error' });
+    if (item) {
+        res.json({
+            success: true,
+            qrCode: item.qrCode,
+            name: item.name,
+            email: item.email,
+            photo: item.photoUrl
+        });
+    } else {
+        res.json({ success: false, message: 'QR code not found.' });
     }
 });
 

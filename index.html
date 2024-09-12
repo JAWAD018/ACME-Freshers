@@ -43,17 +43,23 @@
         }
 
         #photo {
-            display: none;
+            display: block;
             width: 100px;
             height: 100px;
             object-fit: cover;
-            border-radius: 50%;
+            border-radius: 30%;
             margin-bottom: 15px;
         }
 
         #result {
             font-size: 16px;
             margin: 5px 0;
+        }
+
+        #scanningStatus {
+            font-size: 18px;
+            color: #333;
+            margin: 10px 0;
         }
 
         #closeButton {
@@ -93,9 +99,13 @@
         <video id="video" width="300" height="200"></video>
         <canvas id="canvas" width="300" height="200" style="display: none;"></canvas>
 
+        <div id="scanningStatus">Scanning...</div>
+
         <div id="detailsBox">
             <img id="photo" src="" alt="User Photo">
-            <p id="result"></p>
+            <p id="name"></p>
+            <p id="email"></p>
+            <p id="qrCode"></p>
         </div>
 
         <button id="closeButton">Close</button>
@@ -110,53 +120,65 @@
         const video = document.getElementById('video');
         const canvas = document.getElementById('canvas');
         const context = canvas.getContext('2d');
-        const result = document.getElementById('result');
+        const nameElem = document.getElementById('name');
+        const emailElem = document.getElementById('email');
+        const qrCodeElem = document.getElementById('qrCode');
         const photo = document.getElementById('photo');
         const detailsBox = document.getElementById('detailsBox');
         const closeButton = document.getElementById('closeButton');
+        const scanningStatus = document.getElementById('scanningStatus');
         
         let scanning = true;
+        let stream = null;
 
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-            .then(stream => {
-                video.srcObject = stream;
-                video.setAttribute('playsinline', true);
-                video.play();
-                requestAnimationFrame(tick);
-            })
-            .catch(err => {
-                console.error("Error accessing the camera: ", err);
-            });
-
-            async function checkQRCode(qrCode) {
-    try {
-        const response = await fetch('http://localhost:3000/check-qr', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ qrCode })
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            // Ensure 'data' has the expected properties before accessing them
-            const { photo, name, email, qrCode } = data;
-
-            // Update the DOM with the received data
-            document.getElementById('photo').src = photo;
-            document.getElementById('name').textContent = `Name: ${name}`;
-            document.getElementById('email').textContent = `Email: ${email}`;
-            document.getElementById('qrCode').textContent = `QR Code: ${qrCode}`;
-        } else {
-            console.error('QR code not found:', data.message);
+        function startScanning() {
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+                .then(userMediaStream => {
+                    stream = userMediaStream;
+                    video.srcObject = stream;
+                    video.setAttribute('playsinline', true);
+                    video.play();
+                    requestAnimationFrame(tick);
+                })
+                .catch(err => {
+                    console.error("Error accessing the camera: ", err);
+                });
         }
-    } catch (error) {
-        console.error('Error checking QR code:', error);
-    }
-}
 
+        async function checkQRCode(qrCode) {
+            scanningStatus.textContent = 'Processing QR Code...';
+            try {
+                const response = await fetch('http://localhost:3000/api/check-qr', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ qrCode })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                scanningStatus.textContent = '';
+
+                if (data.success) {
+                    // Update the DOM with the received data
+                    photo.src = data.photo;
+                    nameElem.textContent = `Name: ${data.name}`;
+                    emailElem.textContent = `Email: ${data.email}`;
+                    qrCodeElem.textContent = `QR Code: ${data.qrCode}`;
+                    detailsBox.style.display = 'block';
+                    closeButton.style.display = 'block';
+                } else {
+                    result.textContent = 'QR code not found.';
+                }
+            } catch (error) {
+                scanningStatus.textContent = 'Error scanning QR Code.';
+                console.error('Error checking QR code:', error);
+            }
+        }
 
         function tick() {
             if (scanning && video.readyState === video.HAVE_ENOUGH_DATA) {
@@ -177,14 +199,18 @@
         }
 
         closeButton.addEventListener('click', () => {
-            scanning = false;
-            result.textContent = '';
-            photo.style.display = 'none';
+            scanning = true;
+            scanningStatus.textContent = 'Scanning...';
             detailsBox.style.display = 'none';
             closeButton.style.display = 'none';
+            photo.style.display = 'none';
+            result.textContent = '';
             video.pause();
             video.srcObject.getTracks().forEach(track => track.stop());
+            startScanning();
         });
+
+        startScanning();
     </script>
 </body>
 </html>
