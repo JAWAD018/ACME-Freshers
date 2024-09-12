@@ -1,5 +1,5 @@
 const express = require('express');
-const cors = require('cors'); // Import the cors package
+const cors = require('cors');
 const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
 
@@ -16,12 +16,11 @@ app.use(cors({
     methods: ['GET', 'POST']
 }));
 
-
 // MongoDB connection setup
 const url = 'mongodb+srv://mohmmedjawad36:Jawad52923@cluster0.v1odd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 const dbName = 'qrDatabase';
 
-const client = new MongoClient(url);
+const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 async function connectToDb() {
     try {
@@ -36,11 +35,11 @@ connectToDb();
 
 const db = client.db(dbName);
 const usersCollection = db.collection('users');
+
 app.use((req, res, next) => {
     res.setHeader('Content-Type', 'application/json');
     next();
 });
-
 
 // Define route
 app.post('/check-qr', async (req, res) => {
@@ -52,7 +51,7 @@ app.post('/check-qr', async (req, res) => {
         if (user) {
             res.json({
                 success: true,
-                qrCode: user.qrCode
+                qrCode: user.qrCode,
                 name: user.name,
                 email: user.email,
                 photo: user.photoUrl,
