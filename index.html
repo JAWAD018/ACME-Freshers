@@ -148,7 +148,9 @@
         async function checkQRCode(qrCode) {
             scanningStatus.textContent = 'Processing QR Code...';
             try {
-                const response = await fetch('http://localhost:3000/api/check-qr', {
+
+                const response = await fetch('https://acmefresherqr.vercel.app/api/check-qr', {
+
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
