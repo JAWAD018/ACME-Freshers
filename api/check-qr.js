@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
-const { group } = require('console');
 
 const app = express();
 
@@ -14,6 +13,9 @@ app.use(cors({
     origin: '*',
     methods: ['GET', 'POST']
 }));
+
+// Serve static files from the 'images' folder
+app.use('/images', express.static(path.join(__dirname, '../Images')));
 
 // Load JSON data
 const dataFilePath = path.join(__dirname, '../data.json');
@@ -44,12 +46,18 @@ app.post('/api/check-qr', (req, res) => {
             qrCode: item.qrCode,
             name: item.name,
             email: item.email,
-            group:item.group,
-            photo: item.photoUrl
+            group: item.group,
+            photo: `/images/${item.photoUrl}`  // Serving the image from the /images folder
         });
     } else {
         res.status(404).json({ success: false, message: 'QR code not found.' });
     }
+});
+
+// Start the server
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
 });
 
 // Export the app to be used as a Vercel serverless function
