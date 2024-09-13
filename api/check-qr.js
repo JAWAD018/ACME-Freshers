@@ -47,7 +47,7 @@ app.post('/api/check-qr', (req, res) => {
             name: item.name,
             email: item.email,
             group: item.group,
-            photo: `/Images/${item.photoUrl}`  // Serving the image from the /images folder
+            photo: item.photoUrl ? `/Images/${item.photoUrl}` : null
         });
     } else {
         res.status(404).json({ success: false, message: 'QR code not found.' });
