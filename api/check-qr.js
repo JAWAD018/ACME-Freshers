@@ -15,7 +15,7 @@ app.use(cors({
 }));
 
 // Serve static files from the 'images' folder
-app.use('/images', express.static(path.join(__dirname, '../Images')));
+app.use('/Images', express.static(path.join(__dirname, '../Images')));
 
 // Load JSON data
 const dataFilePath = path.join(__dirname, '../data.json');
