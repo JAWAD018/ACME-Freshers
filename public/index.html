@@ -25,7 +25,7 @@
     align-items: center;
     flex: 1;
     width: 100%;
-    padding-bottom: 60px; /* Space for footer on mobile */
+    padding-bottom: 60px; 
 }
 
 .scanner-container {
@@ -63,12 +63,13 @@ video {
 
 #photo {
     display: block;
-    width: 120px;
-    height: 120px;
+    width: 150px; 
+    height: 150px; 
     object-fit: cover;
     border-radius: 30%;
-    margin: 0 auto 30px;
+    margin-bottom: 15px;
 }
+
 
 #result {
     font-size: 16px;
@@ -83,18 +84,21 @@ video {
 
 #closeButton {
     display: none;
-    padding: 10px 20px;
+    padding: 15px 30px; 
+    font-size: 18px; 
     background-color: #333;
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px; 
     cursor: pointer;
-    margin: 20px 0 10%; /* 10% margin from the bottom */
+    margin-top: 20px;
+    margin-bottom: 18%; 
 }
 
 #closeButton:hover {
-    background-color: #555;
+    background-color: #555; 
 }
+
 
 footer {
     width: 100%;
@@ -102,10 +106,10 @@ footer {
     color: #fff;
     text-align: center;
     padding: 10px 0;
-    position: fixed; /* Ensure the footer stays at the bottom */
+    position: fixed; 
     bottom: 0;
     left: 0;
-    z-index: 5; /* Ensure it's behind the button */
+    z-index: 5;
 }
 
 footer p {
@@ -158,7 +162,7 @@ let stream = null;
 
 function startScanning() {
     if (stream) {
-        // Stop the existing stream if present
+        // TODO I JUST STOP SCAN TO TEST by JAWAD   
         stream.getTracks().forEach(track => track.stop());
     }
     
@@ -231,15 +235,14 @@ function tick() {
 }
 
 closeButton.addEventListener('click', () => {
-    // Reset scanning variables
+    // Reset scanning var 
     scanning = true;
     scanningStatus.textContent = 'Scanning...';
 
-    // Hide details box and close button
     detailsBox.style.display = 'none';
     closeButton.style.display = 'none';
 
-    // Clear the photo source and show it again for the next scan
+    // Clear the photo src TODO ADD photo fdr by JAWAD
     photo.src = ''; // Clear the previous image
     photo.style.display = 'block'; // Ensure the photo is shown for the next scan
 
