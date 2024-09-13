@@ -231,16 +231,26 @@ function tick() {
 }
 
 closeButton.addEventListener('click', () => {
-    scanning = true; // Resume scanning
+    // Reset scanning variables
+    scanning = true;
     scanningStatus.textContent = 'Scanning...';
+
+    // Hide details box and close button
     detailsBox.style.display = 'none';
     closeButton.style.display = 'none';
-    photo.style.display = 'none';
-    nameElem.textContent = '';
-    emailElem.textContent = '';
-    qrCodeElem.textContent = '';
-    startScanning(); // Restart scanning
+
+    // Clear the photo source and show it again for the next scan
+    photo.src = ''; // Clear the previous image
+    photo.style.display = 'block'; // Ensure the photo is shown for the next scan
+
+    // Clear the video stream and restart scanning
+    video.pause();
+    if (video.srcObject) {
+        video.srcObject.getTracks().forEach(track => track.stop());
+    }
+    startScanning(); // Restart the scanning process
 });
+
 
 startScanning();
 
