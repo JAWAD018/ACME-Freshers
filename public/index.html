@@ -200,7 +200,7 @@ async function checkQRCode(qrCode) {
         if (data.success) {
             // Stop scanning
             scanning = false;
-            photo.src = data.photo;
+            photo.src = `/images/${data.qrCode}.jpg`;
             nameElem.textContent = `Name: ${data.name}`;
             groupElem.textContent = `Group: ${data.group}`;
             emailElem.textContent = `Email: ${data.email}`;
