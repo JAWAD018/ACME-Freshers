@@ -14,8 +14,6 @@ app.use(cors({
     methods: ['GET', 'POST']
 }));
 
-// Serve static files from the 'images' folder
-app.use('/Images', express.static(path.join(__dirname, '../Images')));
 
 // Load JSON data
 const dataFilePath = path.join(__dirname, '../data.json');
@@ -47,7 +45,7 @@ app.post('/api/check-qr', (req, res) => {
             name: item.name,
             email: item.email,
             group: item.group,
-            photo: item.photoUrl ? `/Images/${item.photoUrl}` : null
+            photo: item.photoUrl
         });
     } else {
         res.status(404).json({ success: false, message: 'QR code not found.' });
