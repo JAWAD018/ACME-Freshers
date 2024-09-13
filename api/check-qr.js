@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
+const { group } = require('console');
 
 const app = express();
 
@@ -43,6 +44,7 @@ app.post('/api/check-qr', (req, res) => {
             qrCode: item.qrCode,
             name: item.name,
             email: item.email,
+            group:item.group,
             photo: item.photoUrl
         });
     } else {

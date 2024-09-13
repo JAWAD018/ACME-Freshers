@@ -2,20 +2,239 @@
     {
         "qrCode": "123456789",
         "name": "John Doe",
+        "group":"BCA",
         "email": "john.doe@example.com",
         "photoUrl": "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg"
     },
     {
         "qrCode": "987654321",
         "name": "Jane Smith",
+        "group":"BCA",
         "email": "jane.smith@example.com",
         "photoUrl": "https://images.pexels.com/photos/1234567/pexels-photo-1234567.jpeg"
     },
     {
         "qrCode": "105522861026",
         "name": "Mohammed Muzammyl",
+        "group":"BCA",
         "email": "muzammylmujju@gmail.com",
         "photoUrl": "https://photos.app.goo.gl/eJ3oa2LY2Y7n5aSu8"
+    },
+    {
+        "qrCode": " TI2460226480",
+        "name": " MOHAMMED IRFAN QURESHI",
+        "email": " 9010542876",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461600282",
+        "name": " MIR IMTIYAZ ALI",
+        "email": " 8885566600",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461222711",
+        "name": " SYED SAIF MOHIUDDIN",
+        "email": " 6301099278",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461229151",
+        "name": " FARHATH BEGUM",
+        "email": " 8639541288",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2458313683",
+        "name": " MD ABU BAKAR SIDDIQ KHAN",
+        "email": " 9959313675",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461228353",
+        "name": " SULTAN KHAN",
+        "email": " 9618053054",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461307083",
+        "name": " MOHAMMED ALI AIYAZ",
+        "email": " 6303740429",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461307267",
+        "name": " SYED KHASIM",
+        "email": " 7793995709",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461219714",
+        "name": " SHAIK ABDULLAH AL AMOUDI",
+        "email": " 8639549452",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461237228",
+        "name": " MAQBOOL HUSSAIN",
+        "email": " 8309750217",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2460500971",
+        "name": " SYED NAQI ABBAS ABEDI",
+        "email": " 7416326110",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461310212",
+        "name": " MOHD MUSTAFA AYAAN",
+        "email": " 7842730352",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2460310877",
+        "name": " MOHAMMED ABDUL MALIK",
+        "email": " 7842236835",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461306720",
+        "name": " MOHAMMED SAIFULLAH KHAN GHORI",
+        "email": " 6304817872",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461243692",
+        "name": " EJAZ AHMED",
+        "email": " 9398773539",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2459255614",
+        "name": " MOHAMMAD ABDUL SAMI",
+        "email": " 9640962067",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461228788",
+        "name": " ABDUL HANNAN",
+        "email": " 9849357646",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461234078",
+        "name": " SHAIK ABDUL SAMAD ANSARI",
+        "email": " 9391715155",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461242340",
+        "name": " AMAN MOHI UDDIN",
+        "email": " 9966073718",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TO2222340692",
+        "name": " SYED ALI MUSTAFA HUSSAIN ABEDI",
+        "email": " 9618745110",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461238196",
+        "name": " MOHAMMED SOHAIL ALI",
+        "email": " 9397987637",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461235588",
+        "name": " SYED SHAH ADNAN UDDIN NEHRI",
+        "email": " 7207469424",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2458243583",
+        "name": " MOHD UMAIR",
+        "email": " 7989929858",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI1327314346",
+        "name": " MOHAMMED SALEEMUDDIN",
+        "email": " 8686641796",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2258251078",
+        "name": " VUPPULA MANIKANTA",
+        "email": " 6305493264",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461206972",
+        "name": " MOHAMMED ISHAQ",
+        "email": " 9849778257",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461245332",
+        "name": " SYED MUQEETULLAH",
+        "email": " 8897156674",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2261223704",
+        "name": " SHAIK SAQIB FAROOQI",
+        "email": " 7842665004",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461222086",
+        "name": " MOHAMMED MUZAMMIL",
+        "email": " 9848505807",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461223625",
+        "name": " MOHAMMED MUDASSIR",
+        "email": " 9848505807",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TO2223165561",
+        "name": " FAZLUR RAHMAN ADIL",
+        "email": " 9642251382",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461311386",
+        "name": " MOHD ABDUL AAKIF",
+        "email": " 9100229644",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461220210",
+        "name": " MOHAMMED ABUBAKER",
+        "email": " 8019659296",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TO23221619181",
+        "name": " IBRAHIM HAMED BAJABER",
+        "email": " 7032449900",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " BCB2428615567",
+        "name": " SUJITH SINGIREDDY",
+        "email": " 7993599178",
+        "group": "BBA"
+    },
+    {
+        "qrCode": " TI2461227824",
+        "name": " MOHAMMED FARZAAN FAROOQUI",
+        "email": " 7993583044",
+        "group": "BBA"
     }
 
 ]
