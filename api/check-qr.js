@@ -43,6 +43,7 @@ app.post('/api/check-qr', (req, res) => {
             success: true,
             qrCode: item.qrCode,
             name: item.name,
+            gender: item.gender,
             email: item.email,
             group: item.group,
             photo: item.photoUrl

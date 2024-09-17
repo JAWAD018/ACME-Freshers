@@ -131,6 +131,7 @@ footer p {
             <h3>DETAILS</h3>
             <img id="photo" src="" alt="User Photo">
             <p id="name"></p>
+            <p id="gender"></p>
             <p id="group"></p>
             <p id="email"></p>
             <p id="qrCode"></p>
@@ -149,6 +150,7 @@ const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const nameElem = document.getElementById('name');
+const genderElem = document.getElementById('gender');
 const groupElem = document.getElementById('group');
 const emailElem = document.getElementById('email');
 const qrCodeElem = document.getElementById('qrCode');
@@ -202,6 +204,7 @@ async function checkQRCode(qrCode) {
             scanning = false;
             photo.src = data.photo;
             nameElem.textContent = `Name: ${data.name}`;
+            genderElem.textContent = `Gender: ${data.gender}`;
             groupElem.textContent = `Group: ${data.group}`;
             emailElem.textContent = `Email: ${data.email}`;
             qrCodeElem.textContent = `QR Code: ${data.qrCode}`;
