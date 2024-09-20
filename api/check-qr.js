@@ -15,7 +15,7 @@ app.use(cors({
 }));
 
 
-// Load JSON data
+// Load JSON data IF ITS NOT WORKING CHECK PATH BY JAWAD
 const dataFilePath = path.join(__dirname, '../data.json');
 let data = [];
 
